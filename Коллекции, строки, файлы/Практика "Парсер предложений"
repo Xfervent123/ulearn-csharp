@@ -6,14 +6,9 @@ static class SentencesParserTask
 {
     public static List<List<string>> ParseSentences(string text)
     {
-        var sentencesList = new List<List<string>>();
-        text = text.Replace('!', '.')
-                   .Replace('?', '.')
-                   .Replace(';', '.')
-                   .Replace(':', '.')
-                   .Replace('(', '.')
-                   .Replace(')', '.');
-        var sentences = text.Split('.', StringSplitOptions.RemoveEmptyEntries);
+        char[] separators = { '!', '?', ';', ':', '(', ')', '.' };
+        var sentences = text.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+		var sentencesList = new List<List<string>>();
 
         foreach (var sentence in sentences)
         {
