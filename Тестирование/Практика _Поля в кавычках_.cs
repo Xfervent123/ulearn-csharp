@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using NUnit.Framework.Legacy;
 using System.Reflection.Metadata.Ecma335;
+using System.Text;
 
 namespace TableParser;
 
@@ -25,27 +26,27 @@ class QuotedFieldTask
 {
 	public static Token ReadQuotedField(string line, int startIndex)
 	{
-        var i = startIndex + 1;
-        var value = "";
+		var i = startIndex + 1;
+		var value = new StringBuilder();
 
-        while (i < line.Length && line[i] != line[startIndex])
-        {
-            if (line[i] == '\\' && i + 1 < line.Length)
-            {
-                value += line[i + 1];
-                i += 2;
-            }
-            else
-            {
-                value += line[i];
-                i++;
-            }
-        }
+		while (i < line.Length && line[i] != line[startIndex])
+		{
+			if (line[i] == '\\' && i + 1 < line.Length)
+			{
+				value.Append(line[i + 1]);
+				i += 2;
+			}
+			else
+			{
+				value.Append(line[i]);
+				i++;
+			}
+		}
 
-        var length = i - startIndex;
-        if (i < line.Length)
-            length++;
+		var length = i - startIndex;
+		if (i < line.Length)
+			length++;
 
-        return new Token(value, startIndex, length);
-    }
+		return new Token(value.ToString(), startIndex, length);
+	}
 }
