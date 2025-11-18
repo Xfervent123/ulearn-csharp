@@ -9,18 +9,9 @@ public static class ThresholdFilterTask
         var width = original.GetLength(0);
         var height = original.GetLength(1);
         var allPixels = new List<double>();
+		var result = new double[width, height];
 
-        for (int x = 0; x < width; x++)
-        {
-            for (int y = 0; y < height; y++)
-            {
-                allPixels.Add(original[x, y]);
-            }
-        }
-
-        var whiteCount = (int)(whitePixelsFraction * width * height);
-        var result = new double[width, height];
-        var threshold = GetThreshold(allPixels, whiteCount);
+        var threshold = GetThreshold(allPixels, original, whitePixelsFraction, width, height);
 
         for (int x = 0; x < width; x++)
         {
@@ -33,8 +24,19 @@ public static class ThresholdFilterTask
         return result;
 	}
 
-    public static double GetThreshold(List<double> allPixels, int whiteCount)
-    {
+	public static double GetThreshold(List<double> allPixels, double[,] original, 
+double whitePixelsFraction, int width, int height)
+	{
+		for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                allPixels.Add(original[x, y]);
+            }
+        }
+
+		var whiteCount = (int)(whitePixelsFraction * width * height);
+
         if (whiteCount == 0)
             return double.MaxValue;
 
