@@ -1,0 +1,43 @@
+using System;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
+
+namespace Manipulation;
+
+public class TriangleTask
+{
+    public static double GetABAngle(double a, double b, double c)
+    {
+        if (a + b >= c && a + c >= b && b + c >= a)
+        {
+            var cosAngle = (a * a + b * b - c * c) / (2.0 * a * b);
+            return Math.Acos(cosAngle);
+        }
+        else
+        {
+            return double.NaN;
+        }
+    }
+}
+
+[TestFixture]
+public class TriangleTask_Tests
+{
+    [TestCase(3, 4, 5, Math.PI / 2)]
+    [TestCase(1, 1, 1, Math.PI / 3)]
+    [TestCase(1, 1, 2, Math.PI)]
+    [TestCase(1, 1, 10, double.NaN)]
+    public void TestGetABAngle(double a, double b, double c, double expectedAngle)
+    {
+        double result = TriangleTask.GetABAngle(a, b, c);
+
+        if (double.IsNaN(expectedAngle))
+        {
+            ClassicAssert.IsTrue(double.IsNaN(result), $"Для {a},{b},{c} ожидалось NaN");
+        }
+        else
+        {
+            ClassicAssert.AreEqual(expectedAngle, result, 1e-5, $"Ошибка для {a},{b},{c}");
+        }
+    }
+}
