@@ -24,8 +24,10 @@ public static class ThresholdFilterTask
         return result;
 	}
 
-	public static double GetThreshold(List<double> allPixels, double[,] original, 
-double whitePixelsFraction, int width, int height)
+	public static double GetThreshold(List<double> allPixels, 
+									  double[,] original,
+									  double whitePixelsFraction,
+									  int width, int height)
 	{
 		for (int x = 0; x < width; x++)
         {
